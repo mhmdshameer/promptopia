@@ -1,8 +1,10 @@
 "use client";
 
-import Nav from "@components/Nav";
-import Provider from "@components/Provider";
-import "@styles/global.css";
+
+import "/styles/global.css";
+import Nav from "/components/Nav";
+import Provider from "components/Provider";
+
 
 const RootLayoutClient = ({ children }) => {
   return (
@@ -11,7 +13,7 @@ const RootLayoutClient = ({ children }) => {
         <div className="gradient" />
       </div>
       <main className="app">
-        <Nav />
+        <Nav/>
         {children}
       </main>
     </Provider>

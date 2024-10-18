@@ -1,7 +1,8 @@
 {
   "compilerOptions": {
+    "baseUrl": ".",   // Ensure the base URL is set
     "paths": {
-      "@*": ["./*"]
+      "@utils/*": ["utils/*"]  // This sets the alias for the 'utils' folder
     }
   }
 }
