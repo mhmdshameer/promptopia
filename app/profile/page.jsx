@@ -24,7 +24,6 @@ const MyProfile = () => {
         fetchPosts();
     },[session])
 
-    console.log(posts)
 
     const handleDelete = async (post) => {
 const hasConfirmed = confirm("Are you sure you want to delete this prompt?")
