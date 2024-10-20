@@ -17,11 +17,10 @@ export const GET = async (request, { params }) => {
 // Update Prompt
 
 export const PATCH = async (request, { params }) => {
-  const { prompt, tag } = await request.JSON();
+  const { prompt, tag } = await request.json();
 
   try {
     await connectToDB();
-
     const existingPrompt = await Prompt.findById(params.id);
 
     if (!existingPrompt)
