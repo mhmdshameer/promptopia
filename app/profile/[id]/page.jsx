@@ -6,17 +6,12 @@ import { useEffect, useState } from "react";
 
 const UserProfile = () => {
     // Get the 'id' from the URL
-    const id = useParams();
-    console.log("id:", id); // Logging the id for debugging
+    const {id} = useParams();
 
-    // Get the 'name' from the query params
     const searchParams = useSearchParams();
     const username = searchParams.get("name");
-  
-    console.log("searchParams name:", username); // Logging the name for debugging
 
     const [userPosts, setUserPosts] = useState([]);
-
     useEffect(() => {
         const fetchPosts = async () => {
             const response = await fetch(`/api/users/${id}/posts`);
