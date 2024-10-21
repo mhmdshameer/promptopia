@@ -1,32 +1,39 @@
-"use client"
-const { default: Profile } = require("components/Profile");
-const { useSearchParams } = require("next/navigation");
-const { useEffect } = require("react");
+'use client';
 
- 
+import Profile from "components/Profile";
+import { useParams, useSearchParams } from "next/navigation";
+import { useEffect, useState } from "react";
 
-const userProfile = ({params})=>{
+const UserProfile = () => {
+    // Get the 'id' from the URL
+    const id = useParams();
+    console.log("id:", id); // Logging the id for debugging
+
+    // Get the 'name' from the query params
     const searchParams = useSearchParams();
     const username = searchParams.get("name");
+  
+    console.log("searchParams name:", username); // Logging the name for debugging
 
     const [userPosts, setUserPosts] = useState([]);
 
-    useEffect(()=>{
+    useEffect(() => {
         const fetchPosts = async () => {
-            const response = await fetch(`/api/users/${params?.id}/posts`)
+            const response = await fetch(`/api/users/${id}/posts`);
+            const data = await response.json();  // Correct usage of async await
+            setUserPosts(data);
+        };
 
-            const data = response.json()
-            setUserPosts(data)
-        }
-
-        if(params?.id) fetchPosts();
-    },[params.id])
+        if (id) fetchPosts();
+    }, [id]);  // Use 'id' here instead of 'params.id'
 
     return (
         <Profile
-            name={usernae}
-            desc={`Welcome to ${userName}'s personalized profile page. Explore ${userName}'s exceptional prompts and be inspired by the power of their imagination`}
+            name={username}
+            desc={`Welcome to ${username}'s personalized profile page. Explore ${username}'s exceptional prompts and be inspired by the power of their imagination`}
             data={userPosts}
         />
-    )
+    );
 }
+
+export default UserProfile;
