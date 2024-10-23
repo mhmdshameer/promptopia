@@ -78,7 +78,7 @@ const Nav = () => {
       <div className="sm:hidden flex relative">
         {session?.user ? (
           <div className="flex">
-            <Image
+            <Image  
               src={session?.user.image }
               alt="profile"
               width={37}
