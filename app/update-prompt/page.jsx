@@ -1,8 +1,8 @@
 "use client";
 
+import React, { useEffect, useState, Suspense } from "react";
 import Form from "components/Form";
 import { useRouter, useSearchParams } from "next/navigation";
-import React, { useEffect, useState, Suspense } from "react";
 
 const EditPrompt = () => {
   const router = useRouter();
@@ -17,21 +17,15 @@ const EditPrompt = () => {
 
   useEffect(() => {
     const getPromptDetails = async () => {
-      if (promptId) {
-        const response = await fetch(`/api/prompt/${promptId}`);
-        if (response.ok) {
-          const data = await response.json();
-          setPost({
-            prompt: data.prompt,
-            tag: data.tag,
-          });
-        } else {
-          console.error("Failed to fetch prompt details");
-        }
-      }
+      const response = await fetch(`/api/prompt/${promptId}`);
+      const data = await response.json();
+      setPost({
+        prompt: data.prompt,
+        tag: data.tag,
+      });
     };
 
-    getPromptDetails();
+    if (promptId) getPromptDetails();
   }, [promptId]);
 
   const updatePrompt = async (e) => {
@@ -43,28 +37,26 @@ const EditPrompt = () => {
     try {
       const response = await fetch(`/api/prompt/${promptId}`, {
         method: "PATCH",
-        headers: {
-          "Content-Type": "application/json", // Ensure to set the content type
-        },
         body: JSON.stringify({
           prompt: post.prompt,
           tag: post.tag,
         }),
+        headers: {
+          "Content-Type": "application/json", // Ensure the content type is set
+        },
       });
       if (response.ok) {
         router.push('/profile');
-      } else {
-        console.error("Failed to update prompt");
       }
     } catch (error) {
-      console.error(error);
+      console.log(error);
     } finally {
-      setSubmitting(false); // Reset submitting state
+      setSubmitting(false); // Reset submitting state after the request
     }
   };
 
   return (
-    <Suspense fallback={<div>Loading...</div>}>
+    <div>
       <Form
         type="Edit"
         post={post}
@@ -72,8 +64,15 @@ const EditPrompt = () => {
         submitting={submitting}
         handleSubmit={updatePrompt}
       />
-    </Suspense>
+    </div>
   );
 };
 
-export default EditPrompt;
+// Wrap the EditPrompt in a Suspense boundary
+const PageComponent = () => (
+  <Suspense fallback={<div>Loading...</div>}>
+    <EditPrompt />
+  </Suspense>
+);
+
+export default PageComponent;
